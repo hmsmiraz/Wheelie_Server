@@ -14,7 +14,7 @@ app.use(cors());
 app.use('/api', router);
 
 const test = (req: Request, res: Response) => {
-  res.send(`Welcome to Bike rental service Server`);
+  res.send(`Welcome to Bike Rental Service Server. 🛵`);
 };
 app.get('/', test);
 
