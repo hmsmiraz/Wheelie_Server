@@ -16,8 +16,8 @@ const bikesSchema = new Schema<TBike>(
 );
 
 bikesSchema.statics.isBikeExists = async function (id: string) {
-  const existingBike = await Bikes.findOne({ id });
+  const existingBike = await Bike.findOne({ id });
   return existingBike;
 };
 
-export const Bikes = model<TBike>("Bikes", bikesSchema);
+export const Bike = model<TBike>("Bike", bikesSchema);

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import config from "../../config";
 import { TUser } from "./user.interface";
 import { User } from "./user.model";
 import AppError from "../../errors/AppError";
