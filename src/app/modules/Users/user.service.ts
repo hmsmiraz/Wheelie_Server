@@ -24,6 +24,24 @@ const createUserIntoDB = async (payload: TUser) => {
     throw new Error(err);
   }
 };
+const getAllUsersFromDB = async () => {
+  const result = await User.find();
+  return result;
+};
+
+const getSingleUserFromDB = async (id: string) => {
+  const result = await User.findById(id);
+  return result;
+};
+const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
+  const result = await User.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
 export const UserServices = {
   createUserIntoDB,
+  getAllUsersFromDB,
+  getSingleUserFromDB,
+  updateUserIntoDB,
 };
