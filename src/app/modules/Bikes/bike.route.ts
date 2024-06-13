@@ -19,5 +19,6 @@ router.put(
   validateRequest(bikeValidations.updateBikeSchema),
   BikeControllers.updateBike
 );
+router.delete("/:bikeId", BikeControllers.deleteBike);
 
 export const BikeRoutes = router;

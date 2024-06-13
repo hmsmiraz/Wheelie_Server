@@ -45,10 +45,22 @@ const updateBike = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const deleteBike = catchAsync(async (req, res) => {
+  const { bikeId } = req.params;
+  const result = await BikeServices.deleteBikeFromDB(bikeId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Bike deleted successfully",
+    data: result,
+  });
+});
 
 export const BikeControllers = {
   createBike,
   getAllBikes,
   getSingleBike,
   updateBike,
+  deleteBike,
 };
