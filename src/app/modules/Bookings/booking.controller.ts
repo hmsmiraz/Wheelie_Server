@@ -3,74 +3,62 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { BookingServices } from "./booking.service";
 import AppError from "../../errors/AppError";
+import notFound from "../../middlewares/notFound";
 
 const createBooking = catchAsync(async (req, res) => {
   const result = await BookingServices.createBookingIntoDB(
     req.user.email,
     req.body
   );
-  if (!result) {
-    return sendResponse(res, {
-      statusCode: httpStatus.NOT_FOUND,
-      success: false,
-      message: "Not Found",
-    });
-  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Bike updated successfully",
+    message: "Rental created successfully",
     data: result,
   });
 });
 const getAllBookings = catchAsync(async (req, res) => {
-
-  const email = req.user?.email; 
+  const email = req.user?.email;
 
   if (!email) {
-    throw new AppError(httpStatus.UNAUTHORIZED, 'User email not found in request!');
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "User email not found in request!"
+    );
   }
 
   const result = await BookingServices.getAllBookingsFromDB(email);
 
-  if (!result) {
-    return sendResponse(res, {
-      statusCode: httpStatus.NOT_FOUND,
+  if (!result.length) {
+    res.json({
       success: false,
-      message: "Not Found",
+      message: "No Data Found",
+      data: result,
     });
   }
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
+  res.json({
     success: true,
-    message: "Bike updated successfully",
+    statusCode: 200,
+    message: "Rentals retrieved successfully",
     data: result,
   });
 });
 
-const updateBooking = catchAsync(async (req, res) => {
-  const { id } = req.params
+const returnBooking = catchAsync(async (req, res) => {
+  const { id } = req.params;
   const result = await BookingServices.updateBookingIntoDB(id);
-
-  if (!result) {
-    return sendResponse(res, {
-      statusCode: httpStatus.NOT_FOUND,
-      success: false,
-      message: "Not Found",
-    });
-  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Bike updated successfully",
+    message: "Bike returned successfully",
     data: result,
   });
 });
 export const BookingControllers = {
   createBooking,
   getAllBookings,
-  updateBooking,
+  returnBooking,
 };

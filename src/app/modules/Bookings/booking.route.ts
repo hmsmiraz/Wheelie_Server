@@ -18,7 +18,7 @@ router.get("/", auth(USER_ROLE.user), BookingControllers.getAllBookings);
 router.put(
   "/:id/return",
   auth(USER_ROLE.admin),
-  BookingControllers.updateBooking
+  BookingControllers.returnBooking
 );
 
 export const BookingRoutes = router;
