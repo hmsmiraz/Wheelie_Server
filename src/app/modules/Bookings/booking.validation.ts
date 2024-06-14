@@ -18,6 +18,6 @@ export const createBookingSchema = z.object({
   }),
 });
 
-export const bikeValidations = {
+export const bookingValidations = {
   createBookingSchema,
 };
