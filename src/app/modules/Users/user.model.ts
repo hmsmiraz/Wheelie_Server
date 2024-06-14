@@ -19,13 +19,6 @@ const userSchema = new Schema<TUser>(
       required: true,
       select: 0,
     },
-    needsPasswordChange: {
-      type: Boolean,
-      default: true,
-    },
-    passwordChangedAt: {
-      type: Date,
-    },
     phone: {
       type: String,
       required: true,
@@ -38,15 +31,6 @@ const userSchema = new Schema<TUser>(
       type: String,
       enum: ["admin", "user"],
       required: true,
-    },
-    status: {
-      type: String,
-      enum: ["in-progress", "blocked"],
-      default: "in-progress",
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false,
     },
   },
   {
@@ -68,24 +52,8 @@ userSchema.post("save", function (doc, next) {
   next();
 });
 
-userSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await User.findOne({ id });
-  return existingUser;
+userSchema.statics.isUserExistsByEmail = async function (email: string) {
+  return await this.findOne({ email }).select("+password");
 };
 
-userSchema.statics.isPasswordMatched = async function (
-  plainTextPassword,
-  hashedPassword
-) {
-  return await bcrypt.compare(plainTextPassword, hashedPassword);
-};
-
-userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
-  passwordChangedTimestamp: Date,
-  jwtIssuedTimestamp: number
-) {
-  const passwordChangedTime =
-    new Date(passwordChangedTimestamp).getTime() / 1000;
-  return passwordChangedTime > jwtIssuedTimestamp;
-};
 export const User = model<TUser, UserModel>("User", userSchema);
