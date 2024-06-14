@@ -6,13 +6,25 @@ import httpStatus from "http-status";
 import { TUserRole } from "../modules/Users/user.interface";
 import config from "../config";
 import { User } from "../modules/Users/user.model";
+import sendResponse from "../utils/sendResponse";
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
-
+    let token: string;
+    const getToken = req.headers.authorization;
+    // split the token
+    if (getToken?.split(" ")[0] === "Bearer") {
+      token = getToken?.split(" ")[1] as string;
+    } else {
+      token = getToken as string;
+    }
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized!");
+      sendResponse(res, {
+        success: false,
+        statusCode: 401,
+        message: "You have no access to this route",
+      });
+      return;
     }
 
     const decoded = jwt.verify(
@@ -20,11 +32,18 @@ const auth = (...requiredRoles: TUserRole[]) => {
       config.jwt_access_secret as string
     ) as JwtPayload;
 
-    const { role, userId, email, iat } = decoded;
-    const user = await User.isUserExistsByEmail(email);
+    const user = await User.isUserExistsByEmail(decoded.email);
 
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
+    }
+    if (requiredRoles && !requiredRoles.includes(decoded.role)) {
+      sendResponse(res, {
+        success: false,
+        statusCode: 401,
+        message: "You have no access to this route",
+      });
+      return;
     }
 
     req.user = decoded as JwtPayload;

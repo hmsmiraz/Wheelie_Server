@@ -9,7 +9,7 @@ const dateStringSchema = z
 
 export const createBookingSchema = z.object({
   body: z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     bikeId: z.string(),
     startTime: dateStringSchema,
     returnTime: dateStringSchema.optional().nullable(),

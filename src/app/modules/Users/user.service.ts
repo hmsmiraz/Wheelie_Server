@@ -28,19 +28,20 @@ const getAllUsersFromDB = async () => {
   return result;
 };
 
-const getSingleUserFromDB = async (id: string) => {
+const getUserFromDB = async (id: string) => {
   const result = await User.findById(id);
   return result;
 };
 const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
-  const result = await User.findOneAndUpdate({ _id: id }, payload, {
+  const result = await User.findByIdAndUpdate(id, payload, {
     new: true,
+    runValidators: true,
   });
   return result;
 };
 export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
-  getSingleUserFromDB,
+  getUserFromDB,
   updateUserIntoDB,
 };

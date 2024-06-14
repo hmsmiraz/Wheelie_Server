@@ -16,7 +16,7 @@ const moduleRoutes = [
     route: BikeRoutes,
   },
   {
-    path: "/bookings",
+    path: "/rentals",
     route: BookingRoutes,
   },
   {

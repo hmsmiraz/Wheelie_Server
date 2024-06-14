@@ -8,47 +8,30 @@ import { createToken } from "./auth.utils";
 import config from "../../config";
 
 const loginUser = async (payload: TLoginUser) => {
-  const user = await User.isUserExistsByEmail(payload.email);
-  const { _id, name, email, phone, address, role }: any = user;
+  // check if the user exists
+  const isUserExists = await User.findOne({ email: payload.email });
 
-  if (!user) {
+  if (!isUserExists) {
     throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
   }
 
+  // create access token
   const jwtPayload = {
-    userId: user._id,
-    role: user.role,
-    email: user.email,
+    userId: isUserExists._id,
+    role: isUserExists.role,
+    email: isUserExists.email,
   };
   const accessToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
     config.jwt_access_expires_in as string
   );
-
-  const refreshToken = createToken(
-    jwtPayload,
-    config.jwt_refresh_secret as string,
-    config.jwt_refresh_expires_in as string
-  );
-
   return {
-    user: {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      address: user.address,
-      role: user.role,
-    },
     accessToken,
-    refreshToken,
+    isUserExists,
   };
 };
 
-
 export const AuthServices = {
   loginUser,
-  changePassword,
-  refreshToken,
 };

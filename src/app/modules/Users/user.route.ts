@@ -1,16 +1,23 @@
 import express from "express";
 import validateRequest from "../../middlewares/validateRequest";
-import { createUserValidationSchema, userValidations } from "./user.validation";
+import { userValidations } from "./user.validation";
 import { UserControllers } from "./user.controller";
+import auth from "../../middlewares/auth";
+import { USER_ROLE } from "./user.constant";
 
 const router = express.Router();
 
 router.get("/", UserControllers.getAllUsers);
 
-router.get("/:userId", UserControllers.getSingleUser);
+router.get(
+  "/me",
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  UserControllers.getUser
+);
 
 router.put(
-  "/:userId",
+  "/me",
+  auth(USER_ROLE.admin, USER_ROLE.user),
   validateRequest(userValidations.updateUserValidationSchema),
   UserControllers.updateUser
 );

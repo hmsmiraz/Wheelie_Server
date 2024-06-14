@@ -23,9 +23,10 @@ const getAllUsers = catchAsync(async (req, res) => {
   });
 });
 
-const getSingleUser = catchAsync(async (req, res) => {
-  const { userId } = req.params;
-  const result = await UserServices.getSingleUserFromDB(userId);
+
+const getUser = catchAsync(async (req, res) => {
+  const userId = req?.user?.userId;
+  const result = await UserServices.getUserFromDB(userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -35,8 +36,9 @@ const getSingleUser = catchAsync(async (req, res) => {
   });
 });
 const updateUser = catchAsync(async (req, res) => {
-  const { userId } = req.params;
-  const result = await UserServices.updateUserIntoDB(userId, req.body);
+  const userId = req?.user?.userId;
+  const userData = req.body
+  const result = await UserServices.updateUserIntoDB(userId, userData);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -49,6 +51,6 @@ const updateUser = catchAsync(async (req, res) => {
 export const UserControllers = {
   createUser,
   getAllUsers,
-  getSingleUser,
+  getUser,
   updateUser,
 };

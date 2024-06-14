@@ -8,35 +8,19 @@ const createBike = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Bike added successfully",
+    message: "Bike updated successfully",
     data: result,
   });
 });
 const getAllBikes = catchAsync(async (req, res) => {
   const result = await BikeServices.getAllBikeFromDB();
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Bikes retrieved successfully",
-    data: result,
-  });
-});
-
-const getSingleBike = catchAsync(async (req, res) => {
-  const { bikeId } = req.params;
-  const result = await BikeServices.getSingleBikeFromDB(bikeId);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Bike is retrieved successfully",
-    data: result,
-  });
-});
-const updateBike = catchAsync(async (req, res) => {
-  const { bikeId } = req.params;
-  const result = await BikeServices.updateBikeIntoDB(bikeId, req.body);
+  if (!result) {
+    return sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "Not Found",
+    });
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -45,14 +29,43 @@ const updateBike = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const deleteBike = catchAsync(async (req, res) => {
+
+const updateBike = catchAsync(async (req, res) => {
   const { bikeId } = req.params;
-  const result = await BikeServices.deleteBikeFromDB(bikeId);
+  const result = await BikeServices.updateBikeIntoDB(bikeId, req.body);
+
+  if (!result) {
+    return sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "Not Found",
+    });
+  }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Bike deleted successfully",
+    message: "Bike updated successfully",
+    data: result,
+  });
+});
+
+const deleteBike = catchAsync(async (req, res) => {
+  const { bikeId } = req.params;
+  const result = await BikeServices.deleteBikeFromDB(bikeId);
+
+  if (!result) {
+    return sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "Not Found",
+    });
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Bike updated successfully",
     data: result,
   });
 });
@@ -60,7 +73,6 @@ const deleteBike = catchAsync(async (req, res) => {
 export const BikeControllers = {
   createBike,
   getAllBikes,
-  getSingleBike,
   updateBike,
   deleteBike,
 };
