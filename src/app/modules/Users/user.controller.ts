@@ -14,10 +14,16 @@ const createUser = catchAsync(async (req, res) => {
 });
 const getAllUsers = catchAsync(async (req, res) => {
   const result = await UserServices.getAllUsersFromDB();
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
+  if (!result.length) {
+    res.json({
+      success: false,
+      message: "No Data Found",
+      data: result,
+    });
+  }
+  res.json({
     success: true,
+    statusCode: 200,
     message: "Users are retrieved successfully",
     data: result,
   });

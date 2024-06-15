@@ -3,7 +3,6 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { BookingServices } from "./booking.service";
 import AppError from "../../errors/AppError";
-import notFound from "../../middlewares/notFound";
 
 const createBooking = catchAsync(async (req, res) => {
   const result = await BookingServices.createBookingIntoDB(
