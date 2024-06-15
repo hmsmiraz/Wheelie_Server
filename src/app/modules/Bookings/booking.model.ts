@@ -10,7 +10,7 @@ const bookingSchema = new Schema<TBooking>(
     totalCost: { type: Number, default: 0 },
     isReturned: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 bookingSchema.statics.isBookingExists = async function (id: string) {

@@ -8,7 +8,7 @@ import { User } from "../Users/user.model";
 
 const createBookingIntoDB = async (
   email: string,
-  payload: Partial<TBooking>
+  payload: Partial<TBooking>,
 ) => {
   const session = await mongoose.startSession();
   try {
@@ -33,7 +33,7 @@ const createBookingIntoDB = async (
     const updatedBike = await Bike.findByIdAndUpdate(
       bikeId,
       { isAvailable: false },
-      { new: true, session }
+      { new: true, session },
     );
 
     if (!updatedBike) {
@@ -64,18 +64,20 @@ const updateBookingIntoDB = async (id: string) => {
     // Find the booking data
     const bookingData = await Booking.findById(id).session(session);
     if (!bookingData) {
-      throw new AppError(httpStatus.NOT_FOUND, 'Booking not found!');
+      throw new AppError(httpStatus.NOT_FOUND, "Booking not found!");
     }
 
     // Find the associated bike data
-    const bookingBike = await Bike.findById(bookingData.bikeId).session(session);
+    const bookingBike = await Bike.findById(bookingData.bikeId).session(
+      session,
+    );
     if (!bookingBike) {
-      throw new AppError(httpStatus.NOT_FOUND, 'Bike not found!');
+      throw new AppError(httpStatus.NOT_FOUND, "Bike not found!");
     }
 
     // Check if the startTime is valid
     if (!bookingData.startTime) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Invalid Date format!');
+      throw new AppError(httpStatus.BAD_REQUEST, "Invalid Date format!");
     }
 
     // Calculate the total rental duration and cost
@@ -89,13 +91,19 @@ const updateBookingIntoDB = async (id: string) => {
 
     // Ensure rentTime is positive
     if (rentTime < 0) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Return time cannot be before start time!');
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Return time cannot be before start time!",
+      );
     }
 
     const totalHours = Math.ceil(rentTime / (1000 * 60 * 60)); // Calculate total hours and round up
 
     if (!bookingBike.pricePerHour) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Price per hour is not defined!');
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Price per hour is not defined!",
+      );
     }
 
     const totalCost = totalHours * bookingBike.pricePerHour;
@@ -104,7 +112,7 @@ const updateBookingIntoDB = async (id: string) => {
     await Bike.findByIdAndUpdate(
       bookingData.bikeId,
       { isAvailable: true },
-      { new: true, session }
+      { new: true, session },
     );
 
     // Update the booking with return time, total cost, and isReturned status
@@ -115,7 +123,7 @@ const updateBookingIntoDB = async (id: string) => {
         totalCost: totalCost,
         isReturned: true,
       },
-      { new: true, runValidators: true, session }
+      { new: true, runValidators: true, session },
     );
 
     await session.commitTransaction();

@@ -11,7 +11,7 @@ router.post(
   "/",
   auth(USER_ROLE.admin),
   validateRequest(bikeValidations.createBikeSchema),
-  BikeControllers.createBike
+  BikeControllers.createBike,
 );
 router.get("/", BikeControllers.getAllBikes);
 
@@ -19,7 +19,7 @@ router.put(
   "/:bikeId",
   auth(USER_ROLE.admin),
   validateRequest(bikeValidations.updateBikeSchema),
-  BikeControllers.updateBike
+  BikeControllers.updateBike,
 );
 router.delete("/:bikeId", auth(USER_ROLE.admin), BikeControllers.deleteBike);
 

@@ -8,7 +8,7 @@ import notFound from "../../middlewares/notFound";
 const createBooking = catchAsync(async (req, res) => {
   const result = await BookingServices.createBookingIntoDB(
     req.user.email,
-    req.body
+    req.body,
   );
 
   sendResponse(res, {
@@ -24,7 +24,7 @@ const getAllBookings = catchAsync(async (req, res) => {
   if (!email) {
     throw new AppError(
       httpStatus.UNAUTHORIZED,
-      "User email not found in request!"
+      "User email not found in request!",
     );
   }
 

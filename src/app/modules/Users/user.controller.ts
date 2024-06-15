@@ -23,7 +23,6 @@ const getAllUsers = catchAsync(async (req, res) => {
   });
 });
 
-
 const getUser = catchAsync(async (req, res) => {
   const userId = req?.user?.userId;
   const result = await UserServices.getUserFromDB(userId);
@@ -37,7 +36,7 @@ const getUser = catchAsync(async (req, res) => {
 });
 const updateUser = catchAsync(async (req, res) => {
   const userId = req?.user?.userId;
-  const userData = req.body
+  const userData = req.body;
   const result = await UserServices.updateUserIntoDB(userId, userData);
 
   sendResponse(res, {

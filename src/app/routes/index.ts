@@ -20,7 +20,7 @@ const moduleRoutes = [
     route: BookingRoutes,
   },
   {
-    path: '/auth',
+    path: "/auth",
     route: AuthRoutes,
   },
 ];

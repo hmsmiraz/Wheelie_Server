@@ -12,14 +12,14 @@ router.get("/", UserControllers.getAllUsers);
 router.get(
   "/me",
   auth(USER_ROLE.admin, USER_ROLE.user),
-  UserControllers.getUser
+  UserControllers.getUser,
 );
 
 router.put(
   "/me",
   auth(USER_ROLE.admin, USER_ROLE.user),
   validateRequest(userValidations.updateUserValidationSchema),
-  UserControllers.updateUser
+  UserControllers.updateUser,
 );
 
 export const UserRoutes = router;

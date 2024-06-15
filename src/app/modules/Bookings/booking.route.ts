@@ -13,7 +13,11 @@ router.post(
   validateRequest(createBookingSchema),
   BookingControllers.createBooking
 );
-router.get("/", auth(USER_ROLE.user), BookingControllers.getAllBookings);
+router.get(
+  "/",
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  BookingControllers.getAllBookings
+);
 
 router.put(
   "/:id/return",

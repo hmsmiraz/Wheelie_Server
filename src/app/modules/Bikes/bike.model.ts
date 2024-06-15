@@ -12,7 +12,7 @@ const bikesSchema = new Schema<TBike>(
     model: { type: String, required: true },
     brand: { type: String, required: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 bikesSchema.statics.isBikeExists = async function (id: string) {

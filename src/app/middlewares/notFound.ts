@@ -8,7 +8,6 @@ const notFound: RequestHandler = (req, res, next) => {
     message: "Not Found",
     error: "",
   });
-
 };
 
 export default notFound;
