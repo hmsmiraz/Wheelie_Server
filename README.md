@@ -57,7 +57,7 @@ Follow these instructions to set up and run the Wheelie Server on your local mac
     ```env
    NODE_ENV=development
    PORT=5000
-   DATABASE_URL=mongodb+srv://Wheelie_Server:admin123123@cluster0.meftkqt.mongodb.net/Wheelie?retryWrites=true&w=majority&appName=Cluster0
+   DATABASE_URL=mongodb+srv://Wheelie_Server:**********@cluster0.meftkqt.mongodb.net/Wheelie?retryWrites=true&w=majority&appName=Cluster0
    BCRYPT_SALT_ROUNDS=12
    DEFAULT_PASS=wheelie123
    JWT_ACCESS_SECRET=7a30dda472a876edb7789c3e86ad4b51162551a494aad0888b1269ae2564a357
