@@ -9,14 +9,13 @@ Wheelie Server is a robust and scalable backend server for the Wheelie applicati
 
 ## Live URL
 
-The live version of the Wheelie application can be accessed at: [Wheelie Live](https://wheelie-live-url.com)
+The live version of the Wheelie application can be accessed at: [Wheelie Live](https://wheelie-server.vercel.app/)
 
 ## Features
 
 - **User Authentication**: Secure user registration and login functionalities.
 - **Data Management**: Efficient handling of user data and application state.
 - **API Integration**: RESTful APIs for seamless communication with the client-side application.
-- **Real-time Updates**: Use of WebSockets for real-time updates and notifications.
 - **Scalability**: Built with scalability in mind to handle a growing user base and data.
 
 ## Technology Stack
@@ -24,7 +23,6 @@ The live version of the Wheelie application can be accessed at: [Wheelie Live](h
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Authentication**: JWT (JSON Web Tokens)
-- **Real-time Communication**: Socket.io
 - **Version Control**: Git, GitHub
 
 ## Getting Started
